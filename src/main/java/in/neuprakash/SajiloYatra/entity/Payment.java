@@ -1,35 +1,32 @@
 package in.neuprakash.SajiloYatra.entity;
 
-import in.neuprakash.SajiloYatra.entity.enums.BusStatusEnum;
-import in.neuprakash.SajiloYatra.entity.enums.BusTypeEnum;
+import in.neuprakash.SajiloYatra.entity.enums.PaymentMethodEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "buses")
+@Table(name = "payments")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bus {
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String busNumber;
+    @Column(nullable = false)
+    private BigDecimal amount;
 
     @Column(nullable = false)
-    private int capacity;
+    private LocalDateTime paymentDate;
 
     @Enumerated(EnumType.STRING)
-    private BusTypeEnum busTypeEnum;
-
-    @Enumerated(EnumType.STRING)
-    private BusStatusEnum busStatusEnum;
-
-
+    private PaymentMethodEnum paymentMethodEnum;
 }

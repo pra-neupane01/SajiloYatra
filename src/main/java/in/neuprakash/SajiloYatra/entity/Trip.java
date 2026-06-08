@@ -1,35 +1,38 @@
 package in.neuprakash.SajiloYatra.entity;
 
-import in.neuprakash.SajiloYatra.entity.enums.BusStatusEnum;
-import in.neuprakash.SajiloYatra.entity.enums.BusTypeEnum;
+
+import in.neuprakash.SajiloYatra.entity.enums.TripStatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "buses")
+@Table(name = "trips")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bus {
+public class Trip {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String busNumber;
+    @Column(nullable = false)
+    private LocalDate tripDate;
 
     @Column(nullable = false)
-    private int capacity;
+    private LocalDateTime departureTime;
+
+    @Column(nullable = false)
+    private LocalDateTime arrivalTime;
 
     @Enumerated(EnumType.STRING)
-    private BusTypeEnum busTypeEnum;
-
-    @Enumerated(EnumType.STRING)
-    private BusStatusEnum busStatusEnum;
-
+    private TripStatusEnum tripStatusEnum;
 
 }

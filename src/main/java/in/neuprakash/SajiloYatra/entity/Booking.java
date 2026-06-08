@@ -1,5 +1,7 @@
 package in.neuprakash.SajiloYatra.entity;
 
+import in.neuprakash.SajiloYatra.entity.enums.BookingClassEnum;
+import in.neuprakash.SajiloYatra.entity.enums.BookingStatusEnum;
 import in.neuprakash.SajiloYatra.entity.enums.BusStatusEnum;
 import in.neuprakash.SajiloYatra.entity.enums.BusTypeEnum;
 import jakarta.persistence.*;
@@ -8,28 +10,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "buses")
+@Table(name = "bookings")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bus {
+public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String busNumber;
-
     @Column(nullable = false)
-    private int capacity;
+    private LocalDateTime bookingDate;
 
     @Enumerated(EnumType.STRING)
-    private BusTypeEnum busTypeEnum;
+    private BookingStatusEnum bookingStatusEnum;
 
     @Enumerated(EnumType.STRING)
-    private BusStatusEnum busStatusEnum;
-
-
+    private BookingClassEnum bookingClassEnum;
 }
