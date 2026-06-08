@@ -28,4 +28,6 @@ public class Ticket {
 
     @Column(nullable = false)
     private LocalDateTime issueDate;
+
+
 }

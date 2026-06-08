@@ -29,4 +29,8 @@ public class Payment {
 
     @Enumerated(EnumType.STRING)
     private PaymentMethodEnum paymentMethodEnum;
+
+    @OneToOne
+    @JoinColumn(name = "ticket_id", nullable = false)
+    private Ticket ticket;
 }

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "passengers")
 @Getter
@@ -27,6 +29,11 @@ public class Passenger {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, unique = true)
     private User user;
+
+    @OneToMany(mappedBy = "passenger",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Booking> booking;
 
 
 

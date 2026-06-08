@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "trips")
@@ -34,5 +35,16 @@ public class Trip {
 
     @Enumerated(EnumType.STRING)
     private TripStatusEnum tripStatusEnum;
+
+    @ManyToOne
+    @JoinColumn(name = "route_id")
+    private Route route;
+
+    @ManyToOne
+    @JoinColumn(name = "bus_id")
+    private Bus bus;
+
+    @OneToMany(mappedBy = "trip")
+    private List<Booking> bookings;
 
 }

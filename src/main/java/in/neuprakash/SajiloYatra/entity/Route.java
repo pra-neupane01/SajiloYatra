@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "routes")
 @Getter
@@ -27,4 +29,7 @@ public class Route {
     private int distance;
 
     private String estimatedDuration;
+
+    @OneToMany(mappedBy = "route")
+    private List<Trip> trips;
 }

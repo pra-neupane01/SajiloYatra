@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "staffs")
@@ -23,6 +24,7 @@ public class Staff {
     private Long id;
 
 
+    @Enumerated(EnumType.STRING)
     private DesignationEnum designation;
 
     private BigDecimal salary;
@@ -32,5 +34,11 @@ public class Staff {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, unique = true)
     private User user;
+
+    @ManyToMany
+    @JoinTable(name = "bus_staff",
+    joinColumns = @JoinColumn(name = "staff_id"),
+    inverseJoinColumns = @JoinColumn(name = "bus_id"))
+    private List<Bus> bus;
 
 }
