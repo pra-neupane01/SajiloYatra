@@ -2,13 +2,7 @@ package in.neuprakash.SajiloYatra.entity;
 
 import in.neuprakash.SajiloYatra.entity.enums.RoleEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-
-import java.time.LocalDateTime;
+import lombok.*;
 
 @Entity
 @Table(name = "users")
@@ -16,10 +10,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Builder
+public class User extends BaseEntity {
 
     @Column(nullable = false)
     private String fullName;
@@ -35,9 +27,5 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
 
 }

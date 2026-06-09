@@ -6,22 +6,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.List;
 
 @Entity
-@Table(name = "passengers")
+@Table(name = "passengers", uniqueConstraints = {@UniqueConstraint(name = "citizenshipConstraint", columnNames = {"citizenshipNo"})})
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Passenger {
+public class Passenger extends BaseEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(unique = true)
+    @Column(nullable = false)
     private String citizenshipNo;
 
     private String preferences;

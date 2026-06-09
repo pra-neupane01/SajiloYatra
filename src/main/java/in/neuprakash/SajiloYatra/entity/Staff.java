@@ -17,12 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Staff {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Staff extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private DesignationEnum designation;

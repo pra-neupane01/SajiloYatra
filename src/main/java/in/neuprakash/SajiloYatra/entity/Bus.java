@@ -16,10 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bus {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Bus extends BaseEntity{
 
     @Column(nullable = false, unique = true)
     private String busNumber;
@@ -35,6 +32,4 @@ public class Bus {
 
     @ManyToMany(mappedBy = "bus")
     private List<Staff> staff;
-
-
 }
