@@ -17,19 +17,22 @@ public class Student {
 
     public static void main(String[] args) {
         List<Student> studentList = new ArrayList<>();
+        studentList.add(new Student("Ram", 45));
+        studentList.add(new Student("Sita", 82));
+        studentList.add(new Student("Hari", 38));
+        studentList.add(new Student("Gita", 22));
+        studentList.add(new Student("Nabin", 55));
 
-        studentList.add(new Student("prakash", 100));
-        studentList.add(new Student("ram", 20));
-        studentList.add(new Student("harry", 19));
+        Supplier<String> supplier = () -> "Result Generated";
+        System.out.println(supplier.get());
 
         Predicate<Student> studentPredicate = t -> t.marks >= 40;
-        System.out.println(studentPredicate.test(new Student("hi", 100)));
+        Consumer<Student> studentConsumer = t -> System.out.println(t.name + " : Pass");
 
-        Consumer<Student> studentConsumer = t -> System.out.println(t);
-        studentConsumer.accept(new Student("New", 111));
+        studentList.stream()
+                .filter(studentPredicate)
+                .forEach(studentConsumer);
 
-        Supplier<String> supplier = () -> "Result Genereated";
-        System.out.println(supplier.get());
     }
 
     public String getName() {
