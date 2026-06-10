@@ -4,6 +4,7 @@ import in.neuprakash.SajiloYatra.dto.request.UserRequestDto;
 import in.neuprakash.SajiloYatra.dto.response.UserResponseDto;
 import in.neuprakash.SajiloYatra.entity.User;
 
+
 public class UserMapper {
     public static User toEntity(UserRequestDto userRequestDto) {
         return User.builder()
@@ -21,6 +22,5 @@ public class UserMapper {
                 .roleEnum(user.getRole())
                 .email(user.getEmail())
                 .build();
-
     }
 }

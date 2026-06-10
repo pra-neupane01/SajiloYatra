@@ -15,7 +15,6 @@ public record UserRequestDto(@NotBlank(message = "Full Name is required")
 
                              @NotBlank(message = "Address is required")
                              String address
-
 ) {
 
 
