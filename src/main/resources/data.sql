@@ -1,5 +1,16 @@
 -- Sample seed data for development
 
+-- Repair audit columns for existing tables that were created before BaseEntity had createdAt.
+ALTER TABLE IF EXISTS users ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
+ALTER TABLE IF EXISTS passengers ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
+ALTER TABLE IF EXISTS staffs ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
+ALTER TABLE IF EXISTS buses ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
+ALTER TABLE IF EXISTS routes ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
+ALTER TABLE IF EXISTS trips ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
+ALTER TABLE IF EXISTS tickets ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
+ALTER TABLE IF EXISTS bookings ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
+ALTER TABLE IF EXISTS payments ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
+
 -- Users
 INSERT INTO users (id, full_name, email, password, address, role, created_at, updated_at)
 VALUES

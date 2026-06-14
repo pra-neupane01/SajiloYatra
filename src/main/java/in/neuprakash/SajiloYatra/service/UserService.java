@@ -41,30 +41,32 @@ public class UserService {
         List<User> users = userRepository.findAll();
 
         return users.stream().map(UserMapper::toResponse).toList();
-
     }
 
+    public UserResponseDto getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("user not found with the provided id"));
+        return UserMapper.toResponse(user);
+    }
+
+    public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("user not found with the provided id"));
+
+        if (userRequestDto.fullName() != null) {
+            existingUser.setFullName(userRequestDto.fullName());
+        }
+        if (userRequestDto.address() != null) {
+            existingUser.setAddress(userRequestDto.address());
+        }
+
+        return UserMapper.toResponse(userRepository.save(existingUser));
+    }
+
+    public void deleteUser(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("user not found with the provided id"));
+        userRepository.delete(user);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

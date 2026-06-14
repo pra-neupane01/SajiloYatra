@@ -28,4 +28,11 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
 
+    @OneToOne(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Passenger passenger;
+
 }
