@@ -8,8 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Table(name = "buses")
 @Getter
@@ -29,7 +27,4 @@ public class Bus extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private BusStatusEnum busStatusEnum;
-
-    @ManyToMany(mappedBy = "bus")
-    private List<Staff> staff;
 }

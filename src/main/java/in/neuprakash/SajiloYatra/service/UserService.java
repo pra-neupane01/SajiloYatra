@@ -53,14 +53,18 @@ public class UserService {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("user not found with the provided id"));
 
+        validate(userRequestDto, existingUser);
+
+        return UserMapper.toResponse(userRepository.save(existingUser));
+    }
+
+    private void validate(UserRequestDto userRequestDto, User existingUser) {
         if (userRequestDto.fullName() != null) {
             existingUser.setFullName(userRequestDto.fullName());
         }
         if (userRequestDto.address() != null) {
             existingUser.setAddress(userRequestDto.address());
         }
-
-        return UserMapper.toResponse(userRepository.save(existingUser));
     }
 
     public void deleteUser(Long id) {

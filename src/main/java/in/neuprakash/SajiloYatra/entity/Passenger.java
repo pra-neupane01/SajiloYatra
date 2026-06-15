@@ -2,10 +2,8 @@ package in.neuprakash.SajiloYatra.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import java.util.List;
 
 @Entity
@@ -14,7 +12,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Passenger extends BaseEntity{
+@Builder
+public class Passenger extends BaseEntity {
 
     @Column(nullable = false)
     private String citizenshipNo;
@@ -28,9 +27,7 @@ public class Passenger extends BaseEntity{
     @OneToMany(mappedBy = "passenger",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
-    private List<Booking> booking;
-
-
+    private List<Booking> bookings;
 
 
 }

@@ -3,7 +3,6 @@
 -- Repair audit columns for existing tables that were created before BaseEntity had createdAt.
 ALTER TABLE IF EXISTS users ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
 ALTER TABLE IF EXISTS passengers ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
-ALTER TABLE IF EXISTS staffs ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
 ALTER TABLE IF EXISTS buses ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
 ALTER TABLE IF EXISTS routes ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
 ALTER TABLE IF EXISTS trips ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
@@ -11,12 +10,15 @@ ALTER TABLE IF EXISTS tickets ADD COLUMN IF NOT EXISTS created_at timestamp NOT 
 ALTER TABLE IF EXISTS bookings ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
 ALTER TABLE IF EXISTS payments ADD COLUMN IF NOT EXISTS created_at timestamp NOT NULL DEFAULT now();
 
+DROP TABLE IF EXISTS bus_staff;
+DROP TABLE IF EXISTS staffs;
+
+DELETE FROM users WHERE role = 'STAFF';
+
 -- Users
 INSERT INTO users (id, full_name, email, password, address, role, created_at, updated_at)
 VALUES
   (1, 'System Admin', 'admin@sajiloyatra.com', 'Admin@123', 'Kathmandu', 'ADMIN', TIMESTAMP '2026-06-09 08:00:00', TIMESTAMP '2026-06-09 08:00:00'),
-  (2, 'Dipak Shrestha', 'dipak.shrestha@sajiloyatra.com', 'Driver@123', 'Lalitpur', 'STAFF', TIMESTAMP '2026-06-09 08:01:00', TIMESTAMP '2026-06-09 08:01:00'),
-  (3, 'Sita Gurung', 'sita.gurung@sajiloyatra.com', 'Conductor@123', 'Bhaktapur', 'STAFF', TIMESTAMP '2026-06-09 08:02:00', TIMESTAMP '2026-06-09 08:02:00'),
   (4, 'Anita Rai', 'anita.rai@sajiloyatra.com', 'Passenger@123', 'Pokhara', 'PASSENGER', TIMESTAMP '2026-06-09 08:03:00', TIMESTAMP '2026-06-09 08:03:00'),
   (5, 'Rajan Adhikari', 'rajan.adhikari@sajiloyatra.com', 'Passenger2@123', 'Bharatpur', 'PASSENGER', TIMESTAMP '2026-06-09 08:04:00', TIMESTAMP '2026-06-09 08:04:00')
 ON CONFLICT DO NOTHING;
@@ -42,38 +44,6 @@ VALUES
   (1, '102-45-678901', 'Window seat, AC coach', 4),
   (2, '105-98-765432', 'Aisle seat, front row', 5)
 ON CONFLICT DO NOTHING;
-
--- Staff
-INSERT INTO staffs (id, designation, salary, hire_date, user_id)
-VALUES
-  (1, 'DRIVER', 45000.00, DATE '2024-02-10', 2),
-  (2, 'CONDUCTOR', 32000.00, DATE '2024-03-15', 3)
-ON CONFLICT DO NOTHING;
-
--- Staff bus assignments
-INSERT INTO bus_staff (staff_id, bus_id)
-SELECT 1, 1
-WHERE NOT EXISTS (
-  SELECT 1
-  FROM bus_staff
-  WHERE staff_id = 1 AND bus_id = 1
-);
-
-INSERT INTO bus_staff (staff_id, bus_id)
-SELECT 1, 2
-WHERE NOT EXISTS (
-  SELECT 1
-  FROM bus_staff
-  WHERE staff_id = 1 AND bus_id = 2
-);
-
-INSERT INTO bus_staff (staff_id, bus_id)
-SELECT 2, 1
-WHERE NOT EXISTS (
-  SELECT 1
-  FROM bus_staff
-  WHERE staff_id = 2 AND bus_id = 1
-);
 
 -- Trips
 INSERT INTO trips (id, trip_date, departure_time, arrival_time, trip_status_enum, route_id, bus_id)
@@ -114,7 +84,6 @@ ON CONFLICT DO NOTHING;
 -- Reset sequences so future inserts continue after the seed rows.
 SELECT setval(pg_get_serial_sequence('users', 'id'), (SELECT COALESCE(MAX(id), 1) FROM users));
 SELECT setval(pg_get_serial_sequence('passengers', 'id'), (SELECT COALESCE(MAX(id), 1) FROM passengers));
-SELECT setval(pg_get_serial_sequence('staffs', 'id'), (SELECT COALESCE(MAX(id), 1) FROM staffs));
 SELECT setval(pg_get_serial_sequence('buses', 'id'), (SELECT COALESCE(MAX(id), 1) FROM buses));
 SELECT setval(pg_get_serial_sequence('routes', 'id'), (SELECT COALESCE(MAX(id), 1) FROM routes));
 SELECT setval(pg_get_serial_sequence('trips', 'id'), (SELECT COALESCE(MAX(id), 1) FROM trips));
