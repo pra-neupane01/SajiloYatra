@@ -3,10 +3,7 @@ package in.neuprakash.SajiloYatra.entity;
 import in.neuprakash.SajiloYatra.entity.enums.BusStatusEnum;
 import in.neuprakash.SajiloYatra.entity.enums.BusTypeEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "buses")
@@ -14,7 +11,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Bus extends BaseEntity{
+@Builder
+public class Bus extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String busNumber;
