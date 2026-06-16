@@ -2,10 +2,7 @@ package in.neuprakash.SajiloYatra.entity;
 
 import in.neuprakash.SajiloYatra.entity.enums.PaymentMethodEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -16,7 +13,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Payment extends BaseEntity{
+@Builder
+public class Payment extends BaseEntity {
 
     @Column(nullable = false)
     private BigDecimal amount;
