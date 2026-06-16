@@ -1,10 +1,10 @@
 package in.neuprakash.SajiloYatra.entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Route extends BaseEntity {
 
     @Column(nullable = false)
@@ -23,7 +24,7 @@ public class Route extends BaseEntity {
     private String destination;
 
     @Column(nullable = false)
-    private int distance;
+    private Integer distance;
 
     private String estimatedDuration;
 
