@@ -1,6 +1,7 @@
 package in.neuprakash.SajiloYatra.service;
 
 import in.neuprakash.SajiloYatra.dto.request.UserRequestDto;
+import in.neuprakash.SajiloYatra.dto.response.PagedResponse;
 import in.neuprakash.SajiloYatra.dto.response.UserResponseDto;
 import in.neuprakash.SajiloYatra.entity.User;
 import in.neuprakash.SajiloYatra.entity.enums.RoleEnum;
@@ -9,9 +10,9 @@ import in.neuprakash.SajiloYatra.mapper.UserMapper;
 import in.neuprakash.SajiloYatra.repository.UserRepository;
 import in.neuprakash.SajiloYatra.utils.HashUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,10 +38,12 @@ public class UserService {
     }
 
 
-    public List<UserResponseDto> getAllUsers() {
-        List<User> users = userRepository.findAll();
+    public PagedResponse<UserResponseDto> getAllUsers(Pageable pageable) {
 
-        return users.stream().map(UserMapper::toResponse).toList();
+
+        Page<User> userPage = userRepository.findAll(pageable);
+        Page<UserResponseDto> userResponsePage = userPage.map(UserMapper::toResponse);
+        return PagedResponse.from(userResponsePage);
     }
 
     public UserResponseDto getUserById(Long id) {

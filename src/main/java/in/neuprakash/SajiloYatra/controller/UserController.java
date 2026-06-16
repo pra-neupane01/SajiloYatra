@@ -1,13 +1,15 @@
 package in.neuprakash.SajiloYatra.controller;
 
+import in.neuprakash.SajiloYatra.dto.request.PaginationRequest;
 import in.neuprakash.SajiloYatra.dto.request.UserRequestDto;
+import in.neuprakash.SajiloYatra.dto.response.APIResponse;
+import in.neuprakash.SajiloYatra.dto.response.PagedResponse;
 import in.neuprakash.SajiloYatra.dto.response.UserResponseDto;
 import in.neuprakash.SajiloYatra.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -22,12 +24,21 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserResponseDto> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<APIResponse<PagedResponse<UserResponseDto>>> getAllUsers(@ModelAttribute PaginationRequest paginationRequest) {
+
+        PagedResponse<UserResponseDto> allUsers = userService.getAllUsers(paginationRequest.toPageable());
+        APIResponse<PagedResponse<UserResponseDto>> apiResponse = APIResponse.<PagedResponse<UserResponseDto>>builder()
+                .status(true)
+                .message("User fetched successfully")
+                .data(allUsers)
+                .build();
+        return ResponseEntity.ok(apiResponse);
+
     }
 
     @GetMapping("/{id}")
     public UserResponseDto getUserById(@PathVariable Long id) {
+
         return userService.getUserById(id);
     }
 
