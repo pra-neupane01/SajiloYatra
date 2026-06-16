@@ -3,13 +3,9 @@ package in.neuprakash.SajiloYatra.entity;
 import in.neuprakash.SajiloYatra.entity.enums.BookingClassEnum;
 import in.neuprakash.SajiloYatra.entity.enums.BookingStatusEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "bookings")
@@ -17,7 +13,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Booking extends BaseEntity{
+@Builder
+public class Booking extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDateTime bookingDate;
@@ -29,7 +26,7 @@ public class Booking extends BaseEntity{
     private BookingClassEnum bookingClassEnum;
 
     @ManyToOne
-    @JoinColumn(name = "passenger_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "passenger_id")
     private Passenger passenger;
 
     @ManyToOne
