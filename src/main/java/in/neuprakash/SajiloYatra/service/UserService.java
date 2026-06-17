@@ -39,8 +39,6 @@ public class UserService {
 
 
     public PagedResponse<UserResponseDto> getAllUsers(Pageable pageable) {
-
-
         Page<User> userPage = userRepository.findAll(pageable);
         Page<UserResponseDto> userResponsePage = userPage.map(UserMapper::toResponse);
         return PagedResponse.from(userResponsePage);

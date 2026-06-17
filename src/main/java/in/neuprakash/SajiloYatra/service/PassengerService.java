@@ -1,6 +1,7 @@
 package in.neuprakash.SajiloYatra.service;
 
 import in.neuprakash.SajiloYatra.dto.request.PassengerRequestDto;
+import in.neuprakash.SajiloYatra.dto.response.PagedResponse;
 import in.neuprakash.SajiloYatra.dto.response.PassengerResponseDto;
 import in.neuprakash.SajiloYatra.entity.Passenger;
 import in.neuprakash.SajiloYatra.entity.User;
@@ -10,9 +11,9 @@ import in.neuprakash.SajiloYatra.mapper.PassengerMapper;
 import in.neuprakash.SajiloYatra.repository.PassengerRepository;
 import in.neuprakash.SajiloYatra.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,9 +46,10 @@ public class PassengerService {
 
     }
 
-    public List<PassengerResponseDto> getAllPassengers() {
-        List<Passenger> passengers = passengerRepository.findAll();
-        return passengers.stream().map(PassengerMapper::toResponse).toList();
+    public PagedResponse<PassengerResponseDto> getAllPassengers(Pageable pageable) {
+        Page<Passenger> passengerPage = passengerRepository.findAll(pageable);
+        Page<PassengerResponseDto> passengerResponsePage = passengerPage.map(PassengerMapper::toResponse);
+        return PagedResponse.from(passengerResponsePage);
     }
 
     public PassengerResponseDto getPassengerById(Long id) {
