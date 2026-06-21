@@ -1,15 +1,15 @@
 package in.neuprakash.SajiloYatra.controller;
 
 import in.neuprakash.SajiloYatra.dto.request.BusRequestDto;
+import in.neuprakash.SajiloYatra.dto.request.PaginationRequest;
 import in.neuprakash.SajiloYatra.dto.response.APIResponse;
 import in.neuprakash.SajiloYatra.dto.response.BusResponseDto;
+import in.neuprakash.SajiloYatra.dto.response.PagedResponse;
 import in.neuprakash.SajiloYatra.service.BusService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,8 +24,14 @@ public class BusController {
     }
 
     @GetMapping
-    public List<BusResponseDto> getAllBuses() {
-        return busService.getAllBuses();
+    public ResponseEntity<APIResponse<PagedResponse<BusResponseDto>>> getAllBuses(@ModelAttribute PaginationRequest paginationRequest) {
+        PagedResponse<BusResponseDto> allBuses = busService.getAllBuses(paginationRequest.toPageable());
+        APIResponse<PagedResponse<BusResponseDto>> apiResponse = APIResponse.<PagedResponse<BusResponseDto>>builder()
+                .status(true)
+                .message("Bus fetched successfully")
+                .data(allBuses)
+                .build();
+        return ResponseEntity.ok(apiResponse);
     }
 
     @GetMapping("/{id}")

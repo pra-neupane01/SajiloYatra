@@ -2,14 +2,15 @@ package in.neuprakash.SajiloYatra.service;
 
 import in.neuprakash.SajiloYatra.dto.request.BusRequestDto;
 import in.neuprakash.SajiloYatra.dto.response.BusResponseDto;
+import in.neuprakash.SajiloYatra.dto.response.PagedResponse;
 import in.neuprakash.SajiloYatra.entity.Bus;
 import in.neuprakash.SajiloYatra.exception.BusinessException;
 import in.neuprakash.SajiloYatra.mapper.BusMapper;
 import in.neuprakash.SajiloYatra.repository.BusRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,9 +24,10 @@ public class BusService {
         return BusMapper.toResponse(savedBus);
     }
 
-    public List<BusResponseDto> getAllBuses() {
-        List<Bus> buses = busRepository.findAll();
-        return buses.stream().map(BusMapper::toResponse).toList();
+    public PagedResponse<BusResponseDto> getAllBuses(Pageable pageable) {
+        Page<Bus> busPage = busRepository.findAll(pageable);
+        Page<BusResponseDto> busResponsePage = busPage.map(BusMapper::toResponse);
+        return PagedResponse.from(busResponsePage);
     }
 
     public BusResponseDto getBusById(Long id) {

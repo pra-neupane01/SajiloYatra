@@ -1,6 +1,9 @@
 package in.neuprakash.SajiloYatra.service;
 
+import in.neuprakash.SajiloYatra.dto.request.PaginationRequest;
 import in.neuprakash.SajiloYatra.dto.request.TripRequestDto;
+import in.neuprakash.SajiloYatra.dto.request.TripSearchRequest;
+import in.neuprakash.SajiloYatra.dto.response.PagedResponse;
 import in.neuprakash.SajiloYatra.dto.response.TripResponseDto;
 import in.neuprakash.SajiloYatra.entity.Bus;
 import in.neuprakash.SajiloYatra.entity.Route;
@@ -10,7 +13,11 @@ import in.neuprakash.SajiloYatra.mapper.TripMapper;
 import in.neuprakash.SajiloYatra.repository.BusRepository;
 import in.neuprakash.SajiloYatra.repository.RouteRepository;
 import in.neuprakash.SajiloYatra.repository.TripRepository;
+import in.neuprakash.SajiloYatra.specification.TripSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -78,5 +85,20 @@ public class TripService {
     private Bus getBusById(Long busId) {
         return busRepository.findById(busId)
                 .orElseThrow(() -> new BusinessException("Bus not found with the provided id"));
+    }
+
+    public PagedResponse<TripResponseDto> searchTrips(TripSearchRequest tripSearchRequest, PaginationRequest paginationRequest) {
+        Pageable pageable = paginationRequest.toPageable();
+
+        Specification<Trip> spec = Specification.allOf(
+                TripSpecification.hasSource(tripSearchRequest.source()),
+                TripSpecification.hasDestination(tripSearchRequest.destination()),
+                TripSpecification.hasTripDate(tripSearchRequest.tripDate())
+        );
+        Page<Trip> tripPage = tripRepository.findAll(spec, pageable);
+        Page<TripResponseDto> tripResponsePage = tripPage.map(TripMapper::toResponse);
+        return PagedResponse.from(tripResponsePage);
+
+
     }
 }
