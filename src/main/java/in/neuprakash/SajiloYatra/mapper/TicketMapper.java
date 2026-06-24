@@ -7,9 +7,11 @@ public class TicketMapper {
     public static TicketResponseDto toResponse(Ticket ticket) {
         return TicketResponseDto.builder()
                 .id(ticket.getId())
-                .ticketNumber(ticket.getTicketNumber())
                 .fare(ticket.getFare())
                 .issueDate(ticket.getIssueDate())
+                .bookingId(ticket.getBooking().getId())
+                .passengerId(ticket.getBooking().getPassenger().getId())
+                .tripId(ticket.getBooking().getTrip().getId())
                 .build();
     }
 }
