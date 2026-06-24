@@ -16,8 +16,11 @@ import java.time.LocalDateTime;
 @Builder
 public class Booking extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column()
     private LocalDateTime bookingDate;
+
+    @Column(nullable = false)
+    private Integer numberOfSeats;
 
     @Enumerated(EnumType.STRING)
     private BookingStatusEnum bookingStatusEnum;
@@ -33,8 +36,8 @@ public class Booking extends BaseEntity {
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 
-    @OneToOne()
-    @JoinColumn(name = "ticket_id", nullable = false)
-    private Ticket ticket;
+//    @OneToOne()
+//    @JoinColumn(name = "ticket_id", nullable = false)
+//    private Ticket ticket;
 
 }

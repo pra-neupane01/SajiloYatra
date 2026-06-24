@@ -1,17 +1,12 @@
 package in.neuprakash.SajiloYatra.dto.request;
 
 import in.neuprakash.SajiloYatra.entity.enums.BookingClassEnum;
-import in.neuprakash.SajiloYatra.entity.enums.BookingStatusEnum;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
-
 public record BookingRequestDto(
-        @NotNull(message = "Booking Date is required")
-        LocalDateTime bookingDate,
 
-        @NotNull(message = "Booking Status is required")
-        BookingStatusEnum bookingStatusEnum,
+        @NotNull(message = "Number of booked seats is required")
+        Integer numberOfSeats,
 
         @NotNull(message = "Booking Class is required")
         BookingClassEnum bookingClassEnum,
@@ -20,9 +15,6 @@ public record BookingRequestDto(
         Long passengerId,
 
         @NotNull(message = "Trip Id is required")
-        Long tripId,
-
-        @NotNull(message = "Ticket Id is required")
-        Long ticketId
+        Long tripId
 ) {
 }
