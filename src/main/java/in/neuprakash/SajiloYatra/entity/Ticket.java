@@ -15,9 +15,6 @@ import java.time.LocalDateTime;
 @Builder
 public class Ticket extends BaseEntity {
 
-    @Column(nullable = false, unique = true)
-    private String ticketNumber;
-
     @Column(nullable = false)
     private BigDecimal fare;
 
@@ -27,6 +24,4 @@ public class Ticket extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "booking_id", nullable = false, unique = true)
     private Booking booking;
-
-
 }

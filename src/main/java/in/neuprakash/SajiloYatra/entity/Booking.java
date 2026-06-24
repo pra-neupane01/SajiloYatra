@@ -36,8 +36,4 @@ public class Booking extends BaseEntity {
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 
-//    @OneToOne()
-//    @JoinColumn(name = "ticket_id", nullable = false)
-//    private Ticket ticket;
-
 }

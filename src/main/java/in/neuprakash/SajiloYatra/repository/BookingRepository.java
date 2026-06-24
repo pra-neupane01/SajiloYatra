@@ -8,4 +8,5 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query("SELECT COALESCE(SUM(b.numberOfSeats), 0) FROM Booking b WHERE b.trip.id = :tripId")
     Integer countBookedSeatsByTripId(Long tripId);
 
+    Long id(Long id);
 }
