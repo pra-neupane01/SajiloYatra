@@ -7,7 +7,9 @@ import java.time.LocalDateTime;
 
 @Builder
 public record TicketResponseDto(Long id,
-                                String ticketNumber,
                                 BigDecimal fare,
-                                LocalDateTime issueDate) {
+                                LocalDateTime issueDate,
+                                Long bookingId,
+                                Long passengerId,
+                                Long tripId) {
 }
