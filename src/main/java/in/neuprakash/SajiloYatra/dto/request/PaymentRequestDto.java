@@ -19,7 +19,10 @@ public record PaymentRequestDto(
         PaymentMethodEnum paymentMethodEnum,
 
         @NotNull(message = "Ticket id is required")
-        Long ticketId
+        Long ticketId,
+
+        @NotNull(message = "Booking id is required")
+        Long bookingId
 ) {
 
 }
