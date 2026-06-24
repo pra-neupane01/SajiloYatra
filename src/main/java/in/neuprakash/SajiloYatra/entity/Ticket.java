@@ -1,8 +1,6 @@
 package in.neuprakash.SajiloYatra.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -25,6 +23,10 @@ public class Ticket extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDateTime issueDate;
+
+    @OneToOne
+    @JoinColumn(name = "booking_id", nullable = false, unique = true)
+    private Booking booking;
 
 
 }

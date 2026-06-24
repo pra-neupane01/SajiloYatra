@@ -30,6 +30,6 @@ public class Payment extends BaseEntity {
     private PaymentMethodEnum paymentMethodEnum;
 
     @OneToOne
-    @JoinColumn(name = "ticket_id", nullable = false)
-    private Ticket ticket;
+    @JoinColumn(name = "booking_id", nullable = false, unique = true)
+    private Booking booking;
 }

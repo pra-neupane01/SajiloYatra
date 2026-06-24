@@ -8,8 +8,6 @@ public class PaymentMapper {
     public static Payment toEntity(PaymentRequestDto paymentRequestDto) {
         return Payment.builder().amount(paymentRequestDto.amount())
                 .paymentMethodEnum(paymentRequestDto.paymentMethodEnum())
-                .paymentDate(paymentRequestDto.paymentDate())
-                .ticket(null)
                 .build();
 
     }
@@ -21,7 +19,6 @@ public class PaymentMapper {
                 .paymentDate(payment.getPaymentDate())
                 .paymentMethodEnum(payment.getPaymentMethodEnum())
                 .paymentDate(payment.getPaymentDate())
-                .ticketId(payment.getTicket() != null ? payment.getTicket().getId() : null)
                 .build();
     }
 }
