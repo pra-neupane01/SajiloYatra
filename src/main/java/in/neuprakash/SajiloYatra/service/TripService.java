@@ -8,6 +8,7 @@ import in.neuprakash.SajiloYatra.dto.response.TripResponseDto;
 import in.neuprakash.SajiloYatra.entity.Bus;
 import in.neuprakash.SajiloYatra.entity.Route;
 import in.neuprakash.SajiloYatra.entity.Trip;
+import in.neuprakash.SajiloYatra.entity.enums.BusStatusEnum;
 import in.neuprakash.SajiloYatra.exception.BusinessException;
 import in.neuprakash.SajiloYatra.mapper.TripMapper;
 import in.neuprakash.SajiloYatra.repository.BusRepository;
@@ -30,6 +31,15 @@ public class TripService {
     private final BusRepository busRepository;
 
     public TripResponseDto saveTrip(TripRequestDto tripRequestDto) {
+        Route route = routeRepository.findById(tripRequestDto.routeId())
+                .orElseThrow(() -> new BusinessException("Route not found"));
+
+        Bus bus = busRepository.findById(tripRequestDto.busId())
+                .orElseThrow(() -> new BusinessException("Bus not found"));
+
+        if (bus.getBusStatusEnum() != BusStatusEnum.AVAILABLE) {
+            throw new BusinessException("Bus is not available for trip");
+        }
         Trip trip = TripMapper.toEntity(tripRequestDto);
         trip.setRoute(getRouteById(tripRequestDto.routeId()));
         trip.setBus(getBusById(tripRequestDto.busId()));
