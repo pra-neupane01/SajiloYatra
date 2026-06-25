@@ -8,7 +8,6 @@ public class PassengerMapper {
     public static Passenger toEntity(PassengerRequestDto passengerRequestDto) {
         return Passenger.builder()
                 .citizenshipNo(passengerRequestDto.citizenshipNo())
-                .preferences(passengerRequestDto.preferences())
                 .build();
 
 
@@ -19,7 +18,6 @@ public class PassengerMapper {
                 .id(passenger.getId())
                 .userId(passenger.getUser().getId())
                 .citizenshipNo(passenger.getCitizenshipNo())
-                .preferences(passenger.getPreferences())
                 .createdAt(passenger.getCreatedAt())
                 .updatedAt(passenger.getUpdatedAt())
                 .build();

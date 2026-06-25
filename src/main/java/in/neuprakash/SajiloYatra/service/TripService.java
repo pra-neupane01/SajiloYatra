@@ -38,12 +38,29 @@ public class TripService {
                 .orElseThrow(() -> new BusinessException("Bus not found"));
 
         if (bus.getBusStatusEnum() != BusStatusEnum.AVAILABLE) {
-            throw new BusinessException("Bus is not available for trip");
+            throw new BusinessException("Bus is not available");
         }
+
+        if (!tripRequestDto.departureTime().isBefore(tripRequestDto.arrivalTime())) {
+            throw new BusinessException("Departure time must be before arrival time");
+        }
+
+        boolean busAlreadyAssigned = tripRepository.existsOverlappingTrip(
+                bus.getId(),
+                tripRequestDto.departureTime(),
+                tripRequestDto.arrivalTime()
+        );
+
+        if (busAlreadyAssigned) {
+            throw new BusinessException("Bus is already assigned to another trip at this time");
+        }
+
         Trip trip = TripMapper.toEntity(tripRequestDto);
-        trip.setRoute(getRouteById(tripRequestDto.routeId()));
-        trip.setBus(getBusById(tripRequestDto.busId()));
+        trip.setRoute(route);
+        trip.setBus(bus);
+
         Trip savedTrip = tripRepository.save(trip);
+
         return TripMapper.toResponse(savedTrip);
     }
 

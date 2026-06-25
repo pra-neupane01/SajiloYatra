@@ -18,8 +18,6 @@ public class Passenger extends BaseEntity {
     @Column(nullable = false)
     private String citizenshipNo;
 
-    private String preferences;
-
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, unique = true)
     private User user;

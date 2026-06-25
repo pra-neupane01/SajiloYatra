@@ -60,9 +60,7 @@ public class PassengerService {
 
     public PassengerResponseDto updatePassenger(Long id, PassengerRequestDto passengerRequestDto) {
         Passenger passenger = passengerRepository.findById(id).orElseThrow(() -> new BusinessException("Passenger not found with the provided id"));
-        if (passengerRequestDto.preferences() != null) {
-            passenger.setPreferences(passengerRequestDto.preferences());
-        }
+
 
         if (passengerRequestDto.citizenshipNo() != null) {
             if (passengerRepository.existsByCitizenshipNoAndIdNot(passengerRequestDto.citizenshipNo(), id)) {
