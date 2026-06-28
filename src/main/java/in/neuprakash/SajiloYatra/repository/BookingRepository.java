@@ -1,6 +1,7 @@
 package in.neuprakash.SajiloYatra.repository;
 
 import in.neuprakash.SajiloYatra.entity.Booking;
+import in.neuprakash.SajiloYatra.entity.enums.BookingStatusEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     Page<Booking> findByPassengerId(Long passengerId, Pageable pageable);
 
     Page<Booking> findByTripId(Long tripId, Pageable pageable);
+
+    Long countByBookingStatusEnum(BookingStatusEnum bookingStatusEnum);
 }
