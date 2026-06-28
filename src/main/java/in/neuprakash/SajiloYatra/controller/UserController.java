@@ -28,7 +28,7 @@ public class UserController {
 
         PagedResponse<UserResponseDto> allUsers = userService.getAllUsers(paginationRequest.toPageable());
         APIResponse<PagedResponse<UserResponseDto>> apiResponse = APIResponse.<PagedResponse<UserResponseDto>>builder()
-                .status(true)
+                .success(true)
                 .message("User fetched successfully")
                 .data(allUsers)
                 .build();

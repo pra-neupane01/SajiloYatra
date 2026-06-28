@@ -2,6 +2,7 @@ package in.neuprakash.SajiloYatra.service;
 
 import in.neuprakash.SajiloYatra.dto.request.BookingRequestDto;
 import in.neuprakash.SajiloYatra.dto.response.BookingResponseDto;
+import in.neuprakash.SajiloYatra.dto.response.PagedResponse;
 import in.neuprakash.SajiloYatra.entity.Booking;
 import in.neuprakash.SajiloYatra.entity.Passenger;
 import in.neuprakash.SajiloYatra.entity.Ticket;
@@ -14,6 +15,8 @@ import in.neuprakash.SajiloYatra.repository.PassengerRepository;
 import in.neuprakash.SajiloYatra.repository.TicketRepository;
 import in.neuprakash.SajiloYatra.repository.TripRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -102,15 +105,21 @@ public class BookingService {
                 .orElseThrow(() -> new BusinessException("Ticket not found with the provided id"));
     }
 
-//    private void validateTicketAssignment(Long ticketId, Long bookingId) {
-//        boolean ticketAlreadyAssigned = bookingRepository.findAll().stream()
-//                .anyMatch(existingBooking ->
-//                        existingBooking.getTicket() != null
-//                                && existingBooking.getTicket().getId().equals(ticketId)
-//                                && (!existingBooking.getId().equals(bookingId)));
-//
-//        if (ticketAlreadyAssigned) {
-//            throw new BusinessException("Ticket already assigned to another booking");
-//        }
-//    }
+    public PagedResponse<BookingResponseDto> getBookingByPassenger(Long passengerId, Pageable pageable) {
+
+        passengerRepository.findById(passengerId).orElseThrow(() -> new BusinessException("Passenger not found"));
+        Page<Booking> bookingPage = bookingRepository.findByPassengerId(passengerId, pageable);
+        Page<BookingResponseDto> responsePage = bookingPage.map(BookingMapper::toResponse);
+        return PagedResponse.from(responsePage);
+
+    }
+
+    public PagedResponse<BookingResponseDto> getBookingByTrip(Long tripId, Pageable pageable
+    ) {
+        tripRepository.findById(tripId).orElseThrow(() -> new BusinessException("Trip not found"));
+        Page<Booking> bookingPage = bookingRepository.findByTripId(tripId, pageable);
+        Page<BookingResponseDto> responsePage = bookingPage.map(BookingMapper::toResponse);
+        return PagedResponse.from(responsePage);
+    }
+
 }

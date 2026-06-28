@@ -1,4 +1,4 @@
-package in.neuprakash.SajiloYatra.utils;
+package in.neuprakash.SajiloYatra.util;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Component;

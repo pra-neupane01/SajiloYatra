@@ -8,7 +8,7 @@ import in.neuprakash.SajiloYatra.entity.enums.RoleEnum;
 import in.neuprakash.SajiloYatra.exception.BusinessException;
 import in.neuprakash.SajiloYatra.mapper.UserMapper;
 import in.neuprakash.SajiloYatra.repository.UserRepository;
-import in.neuprakash.SajiloYatra.utils.HashUtils;
+import in.neuprakash.SajiloYatra.util.HashUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

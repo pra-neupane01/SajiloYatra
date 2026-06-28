@@ -1,10 +1,14 @@
 package in.neuprakash.SajiloYatra.controller;
 
 import in.neuprakash.SajiloYatra.dto.request.BookingRequestDto;
+import in.neuprakash.SajiloYatra.dto.request.PaginationRequest;
+import in.neuprakash.SajiloYatra.dto.response.APIResponse;
 import in.neuprakash.SajiloYatra.dto.response.BookingResponseDto;
+import in.neuprakash.SajiloYatra.dto.response.PagedResponse;
 import in.neuprakash.SajiloYatra.service.BookingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,5 +44,29 @@ public class BookingController {
     public String deleteBooking(@PathVariable Long id) {
         bookingService.deleteBooking(id);
         return "Booking deleted successfully";
+    }
+
+    @GetMapping("/passenger/{passengerId}")
+    public APIResponse<PagedResponse<BookingResponseDto>> getBookingsByPassenger(@PathVariable Long passengerId,
+                                                                                 @ModelAttribute PaginationRequest paginationRequest, Pageable pageable) {
+
+        PagedResponse<BookingResponseDto> bookingPage = bookingService.getBookingByPassenger(passengerId, paginationRequest.toPageable());
+        return APIResponse.<PagedResponse<BookingResponseDto>>builder()
+                .success(true)
+                .message("Passenger bookings fetched successfully")
+                .data(bookingPage)
+                .build();
+    }
+
+    @GetMapping("/trips/{tripId}")
+    public APIResponse<PagedResponse<BookingResponseDto>> getBookingsByTrip(@PathVariable Long tripId,
+                                                                            @ModelAttribute PaginationRequest paginationRequest) {
+        PagedResponse<BookingResponseDto> bookingPage = bookingService.getBookingByTrip(tripId, paginationRequest.toPageable());
+        return APIResponse.<PagedResponse<BookingResponseDto>>builder()
+                .success(true)
+                .message("Bookings for trips fetched successfully")
+                .data(bookingPage)
+                .build();
+
     }
 }
