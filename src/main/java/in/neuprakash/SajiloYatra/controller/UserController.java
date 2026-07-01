@@ -1,6 +1,7 @@
 package in.neuprakash.SajiloYatra.controller;
 
 import in.neuprakash.SajiloYatra.dto.request.PaginationRequest;
+import in.neuprakash.SajiloYatra.dto.request.RegisterRequest;
 import in.neuprakash.SajiloYatra.dto.response.APIResponse;
 import in.neuprakash.SajiloYatra.dto.response.PagedResponse;
 import in.neuprakash.SajiloYatra.dto.response.UserResponseDto;
@@ -18,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public UserResponseDto createUser(@Valid @RequestBody UserRequestDto request) {
+    public UserResponseDto createUser(@Valid @RequestBody RegisterRequest request) {
         return userService.saveUser(request);
     }
 
@@ -43,8 +44,8 @@ public class UserController {
 
     @PutMapping("/{id}")
     public UserResponseDto updateUserById(@PathVariable Long id,
-                                          @RequestBody UserRequestDto userRequestDto) {
-        return userService.updateUser(id, userRequestDto);
+                                          @RequestBody RegisterRequest request) {
+        return userService.updateUser(id, request);
     }
 
     @DeleteMapping("/{id}")

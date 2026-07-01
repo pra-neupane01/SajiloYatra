@@ -16,11 +16,13 @@ public class UserMapper {
 
     public static UserResponseDto toResponse(User user) {
         return UserResponseDto.builder()
-                .fullName(user.getFullName())
                 .id(user.getId())
+                .fullName(user.getFullName())
+                .email(user.getEmail())
                 .address(user.getAddress())
                 .roleEnum(user.getRole())
-                .email(user.getEmail())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 }
