@@ -4,14 +4,15 @@ import in.neuprakash.SajiloYatra.dto.request.LoginRequest;
 import in.neuprakash.SajiloYatra.dto.request.RegisterRequest;
 import in.neuprakash.SajiloYatra.dto.response.AuthResponse;
 import in.neuprakash.SajiloYatra.dto.response.UserResponseDto;
-import in.neuprakash.SajiloYatra.entity.User;
-import in.neuprakash.SajiloYatra.exception.ResourceNotFoundException;
 import in.neuprakash.SajiloYatra.repository.UserRepository;
 import in.neuprakash.SajiloYatra.security.JwtService;
+import in.neuprakash.SajiloYatra.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+
 
 @Service
 @RequiredArgsConstructor
@@ -28,24 +29,24 @@ public class AuthService {
 
     public AuthResponse loginUser(LoginRequest request) {
 
-        authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.email(),
                         request.password()
                 )
         );
 
-        User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        UserPrincipal userPrincipal =
+                (UserPrincipal) authentication.getPrincipal();
 
-        String jwt = jwtService.generateToken(user);
+        String jwt = jwtService.generateToken(userPrincipal);
 
         return AuthResponse.builder()
                 .token(jwt)
-                .userId(user.getId())
-                .fullName(user.getFullName())
-                .email(user.getEmail())
-                .role(user.getRole())
+                .userId(userPrincipal.getId())
+                .fullName(userPrincipal.getFullName())
+                .email(userPrincipal.getEmail())
+                .role(userPrincipal.getRole())
                 .build();
     }
 }

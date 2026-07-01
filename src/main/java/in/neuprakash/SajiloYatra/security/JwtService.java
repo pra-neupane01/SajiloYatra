@@ -1,7 +1,6 @@
 package in.neuprakash.SajiloYatra.security;
 
 import in.neuprakash.SajiloYatra.config.AppConfig;
-import in.neuprakash.SajiloYatra.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -18,14 +17,15 @@ import java.util.function.Function;
 public class JwtService {
     private final AppConfig appConfig;
 
-    public String generateToken(User user) {
+    public String generateToken(UserPrincipal userPrincipal) {
         return Jwts.builder()
-                .subject(user.getEmail())
+                .subject(userPrincipal.getEmail())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + appConfig.getJwt().getExpiry() * 60 * 1000L))
-                .claim("id", user.getId())
-                .claim("name", user.getFullName())
-                .claim("role", user.getRole().name())
+                .subject(userPrincipal.getUsername())
+                .claim("id", userPrincipal.getId())
+                .claim("name", userPrincipal.getFullName())
+                .claim("role", userPrincipal.getRole().name())
                 .signWith(generateKey())
                 .compact();
 
