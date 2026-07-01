@@ -5,6 +5,7 @@ import in.neuprakash.SajiloYatra.dto.request.RegisterRequest;
 import in.neuprakash.SajiloYatra.dto.response.AuthResponse;
 import in.neuprakash.SajiloYatra.dto.response.UserResponseDto;
 import in.neuprakash.SajiloYatra.entity.User;
+import in.neuprakash.SajiloYatra.exception.ResourceNotFoundException;
 import in.neuprakash.SajiloYatra.repository.UserRepository;
 import in.neuprakash.SajiloYatra.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,8 @@ public class AuthService {
                 )
         );
 
-        User user = userRepository.findByEmail(request.email());
+        User user = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         String jwt = jwtService.generateToken(user);
 
