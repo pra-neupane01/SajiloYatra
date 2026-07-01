@@ -1,7 +1,6 @@
 package in.neuprakash.SajiloYatra.controller;
 
 import in.neuprakash.SajiloYatra.dto.request.PaginationRequest;
-import in.neuprakash.SajiloYatra.dto.request.UserRequestDto;
 import in.neuprakash.SajiloYatra.dto.response.APIResponse;
 import in.neuprakash.SajiloYatra.dto.response.PagedResponse;
 import in.neuprakash.SajiloYatra.dto.response.UserResponseDto;

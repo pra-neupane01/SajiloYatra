@@ -1,16 +1,16 @@
 package in.neuprakash.SajiloYatra.mapper;
 
-import in.neuprakash.SajiloYatra.dto.request.UserRequestDto;
+import in.neuprakash.SajiloYatra.dto.request.RegisterRequest;
 import in.neuprakash.SajiloYatra.dto.response.UserResponseDto;
 import in.neuprakash.SajiloYatra.entity.User;
 
 
 public class UserMapper {
-    public static User toEntity(UserRequestDto userRequestDto) {
+    public static User toEntity(RegisterRequest request) {
         return User.builder()
-                .email(userRequestDto.email())
-                .fullName(userRequestDto.fullName())
-                .address(userRequestDto.address())
+                .email(request.email())
+                .fullName(request.fullName())
+                .address(request.address())
                 .build();
     }
 
