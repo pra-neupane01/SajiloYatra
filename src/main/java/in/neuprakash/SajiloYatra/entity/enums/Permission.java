@@ -4,7 +4,6 @@ public enum Permission {
 
     // User
     USER_VIEW,
-    ALL_USER_VIEW,
     USER_UPDATE,
     USER_DELETE,
     PROFILE_UPDATE,
@@ -32,7 +31,6 @@ public enum Permission {
     BOOKING_CREATE,
     BOOKING_VIEW,
     BOOKING_UPDATE,
-    BOOKING_DELETE,
 
     // Payment
     PAYMENT_CREATE,

@@ -9,6 +9,7 @@ import in.neuprakash.SajiloYatra.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,6 +25,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('USER_VIEW')")
     public ResponseEntity<APIResponse<PagedResponse<UserResponseDto>>> getAllUsers(@ModelAttribute PaginationRequest paginationRequest) {
 
         PagedResponse<UserResponseDto> allUsers = userService.getAllUsers(paginationRequest.toPageable());
@@ -37,18 +39,21 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER_VIEW')")
     public UserResponseDto getUserById(@PathVariable Long id) {
 
         return userService.getUserById(id);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER_UPDATE')")
     public UserResponseDto updateUserById(@PathVariable Long id,
                                           @RequestBody RegisterRequest request) {
         return userService.updateUser(id, request);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER_DELETE')")
     public String deleteUserById(@PathVariable Long id) {
         userService.deleteUser(id);
         return "user deleted successfully";

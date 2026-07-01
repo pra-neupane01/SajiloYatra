@@ -11,7 +11,6 @@ public enum RoleEnum {
 
     ADMIN(Set.of(
             Permission.USER_VIEW,
-            Permission.ALL_USER_VIEW,
             Permission.USER_UPDATE,
             Permission.USER_DELETE,
             Permission.PROFILE_UPDATE,
