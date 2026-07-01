@@ -6,6 +6,7 @@ import in.neuprakash.SajiloYatra.dto.response.AuthResponse;
 import in.neuprakash.SajiloYatra.dto.response.UserResponseDto;
 import in.neuprakash.SajiloYatra.entity.User;
 import in.neuprakash.SajiloYatra.repository.UserRepository;
+import in.neuprakash.SajiloYatra.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,8 +18,7 @@ public class AuthService {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
-    pri
-
+    private final JwtService jwtService;
 
 
     public UserResponseDto registerUser(RegisterRequest request) {
@@ -26,10 +26,24 @@ public class AuthService {
     }
 
     public AuthResponse loginUser(LoginRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
+
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.email(),
+                        request.password()
+                )
+        );
+
         User user = userRepository.findByEmail(request.email());
 
-        String token = JwtService
+        String jwt = jwtService.generateToken(user);
 
+        return AuthResponse.builder()
+                .token(jwt)
+                .userId(user.getId())
+                .fullName(user.getFullName())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .build();
     }
 }
