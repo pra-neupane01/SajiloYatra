@@ -59,8 +59,8 @@ public class JwtService {
         return extractSpecificClaim(token, Claims::getExpiration);
     }
 
-    public boolean verifyToken(String token, User user) {
-        return extractUserName(token).equals(user.getEmail())
+    public boolean verifyToken(String token, String email) {
+        return extractUserName(token).equals(email)
                 && !isTokenExpired(token);
     }
 
